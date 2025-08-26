@@ -19,7 +19,7 @@ MODEL_PATH = os.path.join(MODEL_DIR, "model.pkl")
 PIPELINE_PATH = os.path.join(MODEL_DIR, "pipeline.pkl")
 
 def split_train_test(data, test_ratio):
-    np.random.seed(42) #This will ensure that the random indices generated will be the same every time the program is run
+    np.random.seed(42) 
     shuffled_indices = np.random.permutation(len(data))
     test_set_size = int(len(data) * test_ratio)
     test_indices = shuffled_indices[:test_set_size]
@@ -35,8 +35,8 @@ data.describe()
 
 from sklearn.model_selection import train_test_split
 
-#train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42) this does the same thing and it is p[rovided by scikit learn
-train_set, test_set = split_train_test(data, 0.2) #0.2 basically means 20% of the data is used for testing and 80% for training
+
+train_set, test_set = split_train_test(data, 0.2)
 print(len(train_set), "train +", len(test_set), "test")
 
 data["income_cat"] = np.ceil(data["median_income"] / 1.5)
@@ -49,12 +49,10 @@ for train_index, test_index in split.split(data, data["income_cat"]):
     strat_train_set = data.loc[train_index]
     strat_test_set = data.loc[test_index]
 
-#data["income_cat"].value_counts() / len(data)
 
 for set in (strat_train_set, strat_test_set):
     set.drop(["income_cat"], axis=1, inplace=True)
 
-# --- Training and Saving ---
 def train_and_save():
     os.makedirs(MODEL_DIR, exist_ok=True)
     data = pd.read_csv("housing.csv")
@@ -91,16 +89,15 @@ def train_and_save():
     # Model
     model = RandomForestRegressor()
     model.fit(train_prepared, train_labels)
-    # Save model and pipeline
+
     with open(MODEL_PATH, "wb") as f:
         pickle.dump(model, f)
     with open(PIPELINE_PATH, "wb") as f:
         pickle.dump(full_pipeline, f)
-    # Print only the accuracy (R^2 score) on the training set
+        
     accuracy = model.score(train_prepared, train_labels)
     print(f"Training accuracy (R^2): {accuracy:.4f}")
 
-# --- Prediction Function ---
 def predict_house_value(input_dict):
     with open(MODEL_PATH, "rb") as f:
         model = pickle.load(f)
@@ -111,7 +108,6 @@ def predict_house_value(input_dict):
     prediction = model.predict(input_prepared)
     return prediction[0]
 
-# --- Flask API ---
 app = Flask(__name__)
 CORS(app)
 
