@@ -25,12 +25,10 @@ def home():
 def members():
     return jsonify(["Alice", "Bob", "Charlie"])
 
-# --- ML Prediction Endpoint ---
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
         print("Received prediction request")
-        # Load model and pipeline (ensure these files are in flask-server or use correct path)
         model_path = "E:\\23881A66E2\\Projects\\California_House_Price\\models\\model.pkl"
         pipeline_path = "E:\\23881A66E2\\Projects\\California_House_Price\\models\\pipeline.pkl"
         
@@ -44,7 +42,6 @@ def predict():
             pipeline = pickle.load(f)
         print("Pipeline loaded successfully")
         
-        # Get input data
         input_data = request.get_json()
         print(f"Received input data: {input_data}")
         
