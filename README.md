@@ -2,7 +2,7 @@
 A full-stack Machine Learning web application that predicts California house prices based on key features like median income, population, and location.
 
 ## Screenshots
-<img width="1920" height="1200" alt="Screenshot (3)" src="https://github.com/user-attachments/assets/e89b1b4d-1629-409b-b46b-e4c1309e6fcf" />
+<img width="2560" height="1440" alt="Screenshot (7)" src="https://github.com/user-attachments/assets/fdb1091d-1b66-4767-a382-6ab4ce4e5c95" />
 
 ## Features
 
